@@ -34,6 +34,13 @@ class Api {
         return Map.of("ok", true);
     }
     
+    @PutMapping("/equipment/{id}")
+    Object edit(@PathVariable long id, @RequestBody Map<String, String> x) {
+        db.update("UPDATE equipment SET name=?, category=?, status=?, condition_state=?, location=? WHERE id=?",
+            x.get("name"), x.get("category"), x.get("status"), x.get("condition"), x.get("location"), id);
+        return Map.of("ok", true);
+    }
+    
     @DeleteMapping("/equipment/{id}")
     Object del(@PathVariable long id) {
         db.update("DELETE FROM activity WHERE equipment_id=?", id);
@@ -46,13 +53,16 @@ class Api {
         String status = action.equals("borrow") ? "BORROWED" : action.equals("return") ? "AVAILABLE" : "MAINTENANCE";
         String condition = data.getOrDefault("condition", "GOOD");
         
-        // Update equipment state
         db.update("UPDATE equipment SET status=?, condition_state=? WHERE id=?", status, condition, id);
         
-        // Track the action in the activity log table so the database schema is fully utilized
         db.update("INSERT INTO activity (equipment_id, action, person, note) VALUES (?, ?, ?, ?)", 
-            id, action.toUpperCase(), "System User", "Condition marked as " + condition);
+            id, action.toUpperCase(), "System User", "Condition logged as " + condition);
             
         return Map.of("ok", true);
+    }
+
+    @GetMapping("/equipment/{id}/activity")
+    Object history(@PathVariable long id) {
+        return db.queryForList("SELECT * FROM activity WHERE equipment_id=? ORDER BY created_at DESC", id);
     }
 }

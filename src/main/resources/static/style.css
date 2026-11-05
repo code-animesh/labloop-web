@@ -82,15 +82,14 @@ input { min-width: 280px; }
 .code { font-size: 12px; color: #3b82f6; font-weight: 700; background: #eff6ff; padding: 4px 8px; border-radius: 6px; display: inline-block;}
 .card small { color: #64748b; margin-bottom: 16px; display: block; font-weight: 500;}
 .tags { display: flex; gap: 8px; margin-bottom: 24px; }
-.tag {
-    padding: 6px 12px; border-radius: 20px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;
-}
+.tag { padding: 6px 12px; border-radius: 20px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
 .tag.AVAILABLE { background: #dcfce7; color: #16a34a; }
 .tag.BORROWED { background: #fef9c3; color: #ca8a04; }
 .tag.MAINTENANCE { background: #fee2e2; color: #dc2626; }
 .tag.GOOD { background: #f1f5f9; color: #475569; }
 
-.actions { display: flex; gap: 8px; margin-top: auto; }
+/* Card Actions */
+.actions { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: auto; }
 .actions button {
     flex: 1; border: 1px solid #e2e8f0; background: white; padding: 10px;
     border-radius: 6px; font-size: 13px; font-weight: 600; color: #334155; cursor: pointer;
@@ -98,18 +97,51 @@ input { min-width: 280px; }
 .actions button:hover { background: #f8fafc; border-color: #cbd5e1; }
 .actions button.primary-action { background: #3b82f6; color: white; border: none; }
 .actions button.primary-action:hover { background: #2563eb; }
-.actions button.danger:hover { background: #fef2f2; color: #dc2626; border-color: #fecaca; }
+.danger-btn { background: #dc2626 !important; color: white !important; border: none !important; padding: 12px; border-radius: 8px; cursor: pointer; font-weight: 600;}
+.danger-btn:hover { background: #b91c1c !important; }
 
-/* Dialog */
+/* Fixed Dialog (Modals) */
 dialog {
     border: none; border-radius: 16px; padding: 32px; width: min(480px, 95%);
-    box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25); top: 50%; left: 50%; transform: translate(-50%, -50%);
+    box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25); 
+    position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+    margin: 0;
 }
 dialog::backdrop { background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(4px); }
-.close { position: absolute; top: 20px; right: 20px; border: none; background: #f1f5f9; width: 32px; height: 32px; border-radius: 50%; font-size: 20px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
-.close:hover { background: #e2e8f0; }
+.close {
+    position: absolute; top: 20px; right: 20px; border: none; background: #f1f5f9; 
+    width: 32px; height: 32px; border-radius: 50%; font-size: 20px; cursor: pointer; 
+    display: flex; align-items: center; justify-content: center; color: #475569;
+}
+.close:hover { background: #e2e8f0; color: #0f172a; }
+dialog p { color: #475569; font-size: 14px; margin-bottom: 16px; }
 dialog label { display: block; margin: 16px 0 8px; font-size: 13px; font-weight: 600; color: #475569; }
 dialog input, dialog select { width: 100%; margin-bottom: 8px; }
 dialog button.primary { width: 100%; margin-top: 24px; padding: 14px; font-size: 16px; }
+
+/* History Timeline */
+.history-list { 
+    max-height: 350px; overflow-y: auto; margin-top: 24px; 
+    border-left: 2px solid #e2e8f0; padding-left: 20px; margin-left: 8px;
+}
+.history-item { margin-bottom: 20px; position: relative; }
+.history-item::before {
+    content: ''; position: absolute; left: -26px; top: 4px;
+    width: 10px; height: 10px; border-radius: 50%; background: #3b82f6;
+    border: 2px solid white;
+}
+.history-item p { margin: 4px 0 0; font-size: 14px; color: #1e293b; }
+.history-item small { color: #64748b; font-size: 12px; font-weight: 500; }
+
+/* Toast Notifications */
+.toast {
+    position: fixed; bottom: 24px; right: 24px; padding: 14px 24px;
+    background: #0f172a; color: white; border-radius: 8px; font-weight: 500; font-size: 14px;
+    box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
+    transform: translateY(100px); opacity: 1; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 9999; display: flex; align-items: center; gap: 12px;
+}
+.toast-error { background: #dc2626; }
+.toast-success { background: #16a34a; }
 
 @media (max-width: 900px) { aside { display: none; } main { padding: 24px; } .toolbar-actions { flex-direction: column; } input { min-width: 100%; } }

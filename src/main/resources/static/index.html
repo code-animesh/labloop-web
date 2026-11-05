@@ -13,7 +13,7 @@
         <p class="eyebrow">LAB MANAGEMENT</p>
         <nav>
             <button class="nav active" onclick="load()">Dashboard</button>
-            <button class="nav" onclick="openAdd()">＋ Add equipment</button>
+            <button class="nav" onclick="openForm()">＋ Add equipment</button>
         </nav>
         <footer>Simple inventory.<br>Clear accountability.</footer>
     </aside>
@@ -24,7 +24,7 @@
                 <h1>Run your lab with clarity.</h1>
                 <p class="sub">Equipment, loans, and inspections in one unified workspace.</p>
             </div>
-            <button class="primary glow" onclick="openAdd()">＋ New equipment</button>
+            <button class="primary glow" onclick="openForm()">＋ Add equipment</button>
         </header>
 
         <section class="stats">
@@ -67,18 +67,11 @@
                     </select>
                 </div>
             </div>
-            <div id="list" class="grid">
-                <!-- Data populated via JS -->
-            </div>
+            <div id="list" class="grid"></div>
         </section>
     </main>
 
-    <dialog id="modal">
-        <form method="dialog" id="dialog-form">
-            <button class="close">×</button>
-            <div id="form"></div>
-        </form>
-    </dialog>
+    <dialog id="modal"></dialog>
     <script src="app.js"></script>
 </body>
 </html>
