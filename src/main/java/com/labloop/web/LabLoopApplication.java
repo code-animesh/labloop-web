@@ -17,13 +17,13 @@ public class LabLoopApplication {
 
         if (dbUrl == null) {
             dbUrl = "jdbc:h2:mem:labloop;MODE=PostgreSQL;DB_CLOSE_DELAY=-1";
-        } else if (dbUrl.startsWith("postgres://")) {
-            // Render passes raw postgres URI, JDBC needs it converted
-            URI uri = new URI(dbUrl);
-            user = uri.getUserInfo().split(":")[0];
-            pass = uri.getUserInfo().split(":")[1];
-            dbUrl = "jdbc:postgresql://" + uri.getHost() + ":" + uri.getPort() + uri.getPath() + "?sslmode=require";
-        }
+        } else if (dbUrl.startsWith("postgres://") || dbUrl.startsWith("postgresql://")) {
+         URI uri = new URI(dbUrl);
+         user = uri.getUserInfo().split(":")[0];
+         pass = uri.getUserInfo().split(":")[1];
+         int dbPort = uri.getPort() == -1 ? 5432 : uri.getPort();
+         dbUrl = "jdbc:postgresql://" + uri.getHost() + ":" + dbPort + uri.getPath() + "?sslmode=require";
+     }
 
         conn = DriverManager.getConnection(dbUrl, user, pass);
         initDb(); // Create tables using pure SQL
